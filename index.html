@@ -1,370 +1,527 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- manifest.json is file in same directory as index.html -->
-        <link rel="manifest" href="./manifest.json">
-        <meta charset="utf-8">
-        <!-- html 5 meta  viewport element to adjust for size -->
-        <meta name="viewport" content="width=device-width">
-        <title>Chicago's Movies in the Park</title>
-        <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-        <link href="https://fonts.gooleapis.com/icon?family=Material-Icons">
 
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<head>
+    <!-- manifest.json is file in same directory as index.html -->
+    <link rel="manifest" href="./manifest.json">
+    <meta charset="utf-8">
+    <!-- html 5 meta  viewport element to adjust for size -->
+    <meta name="viewport" content="width=device-width">
+    <title>Morning App</title>
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link href="https://fonts.gooleapis.com/icon?family=Material-Icons">
 
-	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-         crossorigin="anonymous">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-	<style>
-		.content {
-			display: none;
-			margin: 1em;
-		}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        .content {
+            display: none;
+            margin: 1em;
+        }
     </style>
 
     <style>
         /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
         #map {
-          height: 400px;
-          width: 100%;
-          
+            height: 400px;
+            width: 100%;
+
         }
     </style>
 
-    </head>
+</head>
 
-    <body>
+<body>
 
-        <!-- navigation bar -->
-	    <nav class="navbar navbar-default navbar-expand-sm navbar-light bg-light">
-            <!--<nav class="navbar navbar-default"></nav>-->
-            <a class="navbar-brand" href="#">Chicago's Movies in the Park</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- navigation bar -->
+    <nav class="navbar navbar-default navbar-expand-sm navbar-light bg-light">
+        <!--<nav class="navbar navbar-default"></nav>-->
+        <a class="navbar-brand" href="#">Morning App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-            <i class = fas fa-bars></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#search-screen">Search<span class="sr-only">(current)</span></a>
+            <i class=fas fa-bars></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#search-screen">Search<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#list-screen">List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#map-screen">Coffee</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#news-screen">News</a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link" href="#weather-screen">Weather</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#list-screen">List</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#map-screen">Map</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#news-screen">News</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about-screen">About</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <!-- the content divs -->
-        <div class="content" id="search-screen">
-            <!-- notice the data-mdc-auto-init attribute;  this value is used by the autoinit script -->
-            <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-                <input class="mdc-text-field__input" type="text" id="input-movie">
-                <label for="input-movie" class="mdc-floating-label">Search By Movie</label>
-                <div class="mdc-line-ripple"></div>
-            </div>
-
-            <button class="mdc-button mdc-button--raised" id="movie-search">
-                Search
-            </button>
-            <br>
-
-            <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-                <input class="mdc-text-field__input" type="text" id="input-park">
-                <label for="input-park" class="mdc-floating-label">Search By Park</label>
-                <div class="mdc-line-ripple"></div>
-            </div>
-
-            <button class="mdc-button mdc-button--raised" id="park-search">
-                Search
-            </button>
-            <br>
-
-            <label><input type="checkbox" id="sunday-box" name="Sunday">Sunday</label>
-            <label><input type="checkbox" id="monday-box" name="Monday">Monday</label>
-            <label><input type="checkbox" id="tuesday-box" name="Tuesday">Tuesday</label>
-            <label><input type="checkbox" id="wednesday-box" name="Wednesday">Wednesday</label>
-            <label><input type="checkbox" id="thursday-box" name="Thursday">Thursday</label>
-            <label><input type="checkbox" id="friday-box" name="Friday">Friday</label>
-            <label><input type="checkbox" id="saturday-box" name="Saturday">Saturday</label>
-            <br>
-
-            <label><input type="checkbox" id="upcoming-movies" name="upcoming-movies" checked> Upcoming Movies</label>
-            <br><br>Leave fields blank for all results<br>
-            
-            <br><br>Initiate news articles<br>
-            <button class="mdc-button mdc-button--raised" id="park-search">
-                Search
-            </button>
-            
+                <li class="nav-item">
+                    <a class="nav-link" href="#about-screen">About</a>
+                </li>
+            </ul>
         </div>
-        <div class="content" id="list-screen">
-            <div id="num-results-text"></div><br>
-            <ul id="movie-list" class="list-group"></ul>
-        </div>
-        <div class="content" id="map-screen">
-            <!--This is the map screen-->
-            <div id="map"></div>
+    </nav>
 
+    <!-- the content divs -->
+    <div class="content" id="search-screen">
+        <!-- notice the data-mdc-auto-init attribute;  this value is used by the autoinit script -->
+        <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+            <input class="mdc-text-field__input" type="text" id="input-movie">
+            <label for="input-movie" class="mdc-floating-label">Search By Movie</label>
+            <div class="mdc-line-ripple"></div>
         </div>
 
-        <div class="content" id="news-screen">
-            This is the news screen
-            <ul id="news-results-list" class="list-group"></ul>
+        <button class="mdc-button mdc-button--raised" id="movie-search">
+            Search
+        </button>
+        <br>
+
+        <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+            <input class="mdc-text-field__input" type="text" id="input-park">
+            <label for="input-park" class="mdc-floating-label">Search By Park</label>
+            <div class="mdc-line-ripple"></div>
         </div>
 
-        <div class="content" id="about-screen">
-            App Name: Chicago's Movies in the Park <br>
-            Developer: Sean Ennis <br>
-            GitHub Link: <a href=https://github.com/sennis3/it202-project2>https://github.com/sennis3/it202-project2</a>
-        </div>
+        <button class="mdc-button mdc-button--raised" id="park-search">
+            Search
+        </button>
+        <br>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-        
-        <!-- Inline script to respond to button-->
-        <script type="text/javascript">
+        <label><input type="checkbox" id="sunday-box" name="Sunday">Sunday</label>
+        <label><input type="checkbox" id="monday-box" name="Monday">Monday</label>
+        <label><input type="checkbox" id="tuesday-box" name="Tuesday">Tuesday</label>
+        <label><input type="checkbox" id="wednesday-box" name="Wednesday">Wednesday</label>
+        <label><input type="checkbox" id="thursday-box" name="Thursday">Thursday</label>
+        <label><input type="checkbox" id="friday-box" name="Friday">Friday</label>
+        <label><input type="checkbox" id="saturday-box" name="Saturday">Saturday</label>
+        <br>
 
-            var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
-            var newsEndpoint = "https://api.nytimes.com/svc/news/v3/content/all/all.json?api-key=qvuCmnn1xfLkesaokCLHKERhcJS5hfAa";
-            
-            // wait til the document is ready
-            $(document).ready(function () {
-                function hideScreens() {
-                    $(".content").hide();
-                }
+        <label><input type="checkbox" id="upcoming-movies" name="upcoming-movies" checked> Upcoming Movies</label>
+        <br><br>Leave fields blank for all results<br>
 
-                $(".nav-link").on("click", function(){
-                    hideScreens();
-                    var target = $(this).attr("href");
-                    $(target).show();
-                });
-                
-                function clearMovies() {
-                    $("#movie-list").empty();
-                    var numMarkers = markers.length;
-                    for (var i = 0; i < numMarkers; i++){
-                        markers[i].setMap(null);
-                    }
-                }
+        <br><br>Initiate news articles<br>
+        <button class="mdc-button mdc-button--raised" id="park-search">
+            Search
+        </button>
 
-                function addMovie(v) {
-                    $("#movie-list").append("<li class='list-group-item'><span>" + v.title + "<br>" + v.park + "<br>" + v.rating + "<br>" + v.day + "<br>" + v.date + "<br>CC: " + v.cc + "</span></li>");
-                    if (v.hasOwnProperty('location')) {
-                        var infowindow = new google.maps.InfoWindow({
-                            content: v.title + "<br>" + v.park + "<br>" + v.rating + "<br>" + v.day + "<br>" + v.date + "<br>CC: " + v.cc
-                        })
+    </div>
+    <div class="content" id="list-screen">
+        <div id="num-results-text"></div><br>
+        <ul id="movie-list" class="list-group"></ul>
+    </div>
+    <div class="content" id="map-screen">
+        <!--This is the map screen-->
+        <div id="map"></div>
 
-                        var marker = new google.maps.Marker({
-                            position: {lat: parseFloat(v.location.latitude), lng: parseFloat(v.location.longitude)},
-                            map: map,
-                            title: v.park
-                        });
+    </div>
 
-                        marker.addListener('click', function() {
-                            infowindow.open(map, marker);
-                        });
-                        markers.push(marker);
-                    }
-                }
+    <div class="content" id="news-screen">
+        This is the news screen
+        <ul id="news-list" class="list-group"></ul>
+    </div>
+    <div class="content" id="weather-screen">
+        This is the weather screen
+        <ul id="weather-list" class="list-group"></ul>
+    </div>
 
-                function getDayStr(blankTitle){
-                    var dayStr = "";
-                    if (blankTitle == 0){
-                        dayStr = "&";
-                    }
-                    else{
-                        dayStr = "?";
-                    }
-                    var dayStr = dayStr + "$where=day in("
-                    var dayCount = 0;
-                    if(document.getElementById("sunday-box").checked){
-                        if (dayCount > 0)
-                        {
-                            dayStr = dayStr + ", "
-                        }
-                        dayStr = dayStr + "'Sun'";
-                        dayCount++;
-                    }
-                    if(document.getElementById("monday-box").checked){
-                        if (dayCount > 0)
-                        {
-                            dayStr = dayStr + ", "
-                        }
-                        dayStr = dayStr + "'Mon'";
-                        dayCount++;
-                    }
-                    if(document.getElementById("tuesday-box").checked){
-                        if (dayCount > 0)
-                        {
-                            dayStr = dayStr + ", "
-                        }
-                        dayStr = dayStr + "'Tue'";
-                        dayCount++;
-                    }
-                    if(document.getElementById("wednesday-box").checked){
-                        if (dayCount > 0)
-                        {
-                            dayStr = dayStr + ", "
-                        }
-                        dayStr = dayStr + "'Wed'";
-                        dayCount++;
-                    }
-                    if(document.getElementById("thursday-box").checked){
-                        if (dayCount > 0)
-                        {
-                            dayStr = dayStr + ", "
-                        }
-                        dayStr = dayStr + "'Thu'";
-                        dayCount++;
-                    }
-                    if(document.getElementById("friday-box").checked){
-                        if (dayCount > 0)
-                        {
-                            dayStr = dayStr + ", "
-                        }
-                        dayStr = dayStr + "'Fri'";
-                        dayCount++;
-                    }
-                    if(document.getElementById("saturday-box").checked){
-                        if (dayCount > 0)
-                        {
-                            dayStr = dayStr + ", "
-                        }
-                        dayStr = dayStr + "'Sat'";
-                        dayCount++;
-                    }
-                    dayStr = dayStr + ")";
+    <div class="content" id="about-screen">
+        App Name: Chicago's Movies in the Park <br>
+        Developer: Sean Ennis <br>
+        GitHub Link: <a href=https://github.com/sennis3/it202-project2>https://github.com/sennis3/it202-project2 </a>
+            </div> <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 
-                    if (dayCount == 0){
-                        dayStr = "";
+            <!-- Inline script to respond to button-->
+            <script type="text/javascript">
+
+                var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
+                var newsEndpoint = "https://api.nytimes.com/svc/news/v3/content/all/all.json?api-key=qvuCmnn1xfLkesaokCLHKERhcJS5hfAa";
+                var weatherEndpoint = "https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&latitude=42.2289408&longitude=-87.98208000000001&oneobservation=true&app_id=o2ov6ufw0JJwr1QfqfMz&app_code=IhLTcO18SpfN_CGnU9xeYw?jsoncallback=?";
+                var weatherEndpoint2 = "https://openweathermap.org/data/2.5/weather?lat=41.8781&lon=-87.6298&appid=b6907d289e10d714a6e88b30761fae22";
+                // wait til the document is ready
+                $(document).ready(function () {
+
+
+
+                    function hideScreens() {
+                        $(".content").hide();
                     }
 
-                    return dayStr;
-                }
-
-                function getTimeStr(blank){
-                    var timeStr = "";
-                    if(document.getElementById("upcoming-movies").checked){
-                        var d = new Date();
-                        d.getDate();
-                        var ds = d.toISOString();
-                        console.log(ds);
-                        var split = ds.split("Z")[0];
-                        
-                        if (blank == 0){
-                            timeStr = "&";
-                        }
-                        else{
-                            timeStr = "?";
-                        }
-                        timeStr = timeStr+ "$where=date>\'" + split + "\'";
-                    }
-                    return timeStr;
-                }
-
-                $("#movie-search").on("click", function(e) {
-                    clearMovies();
-                    var str = "";
-                    var blank = 1;
-                    var inputStr = $("#input-movie").val();
-                    if (inputStr.length > 0){
-                        str = "?title=" + $("#input-movie").val();
-                        blank = 0;
-                    }
-                    var str = str + getDayStr(blank);
-                    if (str.length > 0){
-                        blank = 0;
-                    }
-                    str = str + getTimeStr(blank);
-                    var numResults = 0;
-                    $.getJSON(endpoint + str, function(result) {
-                        $.each(result, function(i, v){
-                            addMovie(v);
-                            numResults++;
-                        });
-                        $("#num-results-text").empty();
-                        $("#num-results-text").append(numResults + " result(s)");
-
-                        //Trying to switch to list-screen
-                        /*$(".content").hide();
-                        var target = $("#list-screen").attr("href");
-                        $(target).show();*/
-                    });                   
-                });
-
-                $("#park-search").on("click", function(e) {
-                    clearMovies();
-
-                    var str = "";
-                    var blank = 1;
-                    var inputStr = $("#input-park").val();
-                    if (inputStr.length > 0){
-                        str = "?park=" + $("#input-park").val();
-                        blank = 0;
-                    }
-                    var str = str + getDayStr(blank);
-                    if (str.length > 0){
-                        blank = 0;
-                    }
-                    str = str + getTimeStr(blank);
-
-                    var numResults = 0;
-                    $.getJSON(endpoint + str, function(result) {
-                        $.each(result, function(i, v){
-                            addMovie(v);
-                            numResults++;
-                        });
-                        $("#num-results-text").empty();
-                        $("#num-results-text").append(numResults + " result(s)");
+                    $(".nav-link").on("click", function () {
+                        hideScreens();
+                        var target = $(this).attr("href");
+                        $(target).show();
                     });
-                });
-                
-                
-                // initializes all elements with the data-mdc-auto-init attribute
-                window.mdc.autoInit();
-                //alert("ready is done")
-            })
-        </script>
-        <script>
-            var map;
-            var markers = [];
-            function initMap() {
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: 41.881832, lng: -87.623177},
-                    zoom: 10
-                });
-            } 
-        </script>
 
-       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsHnLGvr0f3IYj5be9kxSPgruS0hb3qF8&callback=initMap"
-            async defer></script>
-        
-        <script>
-            if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js')
-            .then(function(reg) {
-                // registration worked
-                console.log('Registration succeeded. Scope is ' + reg.scope);
-            }).catch(function(error) {
-                // registration failed
-                console.log('Registration failed with ' + error);
-            });
-            }
-        </script>
-        
-    </body>
+                    function addArticle(v) {
+                        $("#news-list").append("<li class='list-group-item'><span>" + "<img src=" + v.thumbnail_standard + "> " + v.title + "<br><br>" + v.abstract + "<br>" + "<a href=" + v.url + ">Read Article</a>" + "</span></li>");
+                    }
+
+
+                    $.getJSON(newsEndpoint, function (result) {
+                        //console.log(result);
+                        $.each(result, function (i, v) {
+                            if (i === "results") {
+                                $.each(v, function (ii, vv) {
+                                    //console.log("i: " + ii);
+                                    //console.log("v: " + vv);
+                                    addArticle(vv);
+                                });
+                            }
+
+                            //console.log("i: " + i);
+                            //console.log("v: " + v);
+                            //addArticle(v);
+                            //numResults++;
+                        });
+                        //$("#num-results-text").empty();
+                        //$("#num-results-text").append(numResults + " result(s)");
+                    });
+
+                    console.log("geting weather");
+                    $.getJSON(weatherEndpoint2, function (result) {
+                        var desc, temp, highTemp, lowTemp, humidity;
+                        console.log(result);
+                        $.each(result, function (i, v) {
+                            if (i === "weather"){
+                                $.each(v, function (ii, vv) {
+                                    //console.log("Description: " + vv.description);
+                                    desc = vv. description;
+                                });
+                            }
+                            if (i === "main"){
+                                /*console.log("Temperature: " + v.temp);
+                                console.log("High: " + v.temp_max);
+                                console.log("Low: " + v.temp_min);
+                                console.log("Humidity: " + v.humidity);*/
+                                temp = v.temp;
+                                highTemp = v.temp_max;
+                                lowTemp = v.temp_min;
+                                humidity = v.humidity;
+                                $("#weather-list").append("<li class='list-group-item'><span>" + desc + "<br>Current Temperature: " + temp + "<br>Today's High: " + highTemp + "<br>Today's Low: " + lowTemp + "<br>Humidity: " + humidity + "%" + "</span></li>");
+                            }
+                        });
+                        console.log(desc + " " + temp + " " + highTemp + " " + lowTemp + " " + humidity);
+
+                    });
+                    function getWeather(latitude, longitude) {
+                        console.log("geting weather");
+                        $.getJSON(weatherEndpoint, function (result) {
+                            console.log(result);
+                        });
+
+                        /*$.ajax({
+                            url: 'https://weather.cit.api.here.com/weather/1.0/report.json',
+                            type: 'GET',
+                            dataType: 'jsonp',
+                            jsonp: 'jsonpcallback',
+                            data: {
+                                product: 'observation',
+                                latitude: myLatitude,
+                                longitude: myLongitude,
+                                oneobservation: 'true',
+                                app_id: 'o2ov6ufw0JJwr1QfqfMz',
+                                app_code: 'IhLTcO18SpfN_CGnU9xeYw'
+                            },
+                            success: function (data) {
+                                console.log("Retrieved weather");
+                                alert(JSON.stringify(data));
+                            }
+                        });*/
+                    }
+
+
+                    function clearMovies() {
+                        $("#movie-list").empty();
+                        /*var numMarkers = markers.length;
+                        for (var i = 0; i < numMarkers; i++) {
+                            markers[i].setMap(null);
+                        }*/
+                    }
+
+                    function addMovie(v) {
+                        $("#movie-list").append("<li class='list-group-item'><span>" + v.title + "<br>" + v.park + "<br>" + v.rating + "<br>" + v.day + "<br>" + v.date + "<br>CC: " + v.cc + "</span></li>");
+                        /*if (v.hasOwnProperty('location')) {
+                            var infowindow = new google.maps.InfoWindow({
+                                content: v.title + "<br>" + v.park + "<br>" + v.rating + "<br>" + v.day + "<br>" + v.date + "<br>CC: " + v.cc
+                            })
+
+                            var marker = new google.maps.Marker({
+                                position: { lat: parseFloat(v.location.latitude), lng: parseFloat(v.location.longitude) },
+                                map: map,
+                                title: v.park
+                            });
+
+                            marker.addListener('click', function () {
+                                infowindow.open(map, marker);
+                            });
+                            markers.push(marker);
+                        }*/
+                    }
+
+                    function getDayStr(blankTitle) {
+                        var dayStr = "";
+                        if (blankTitle == 0) {
+                            dayStr = "&";
+                        }
+                        else {
+                            dayStr = "?";
+                        }
+                        var dayStr = dayStr + "$where=day in("
+                        var dayCount = 0;
+                        if (document.getElementById("sunday-box").checked) {
+                            if (dayCount > 0) {
+                                dayStr = dayStr + ", "
+                            }
+                            dayStr = dayStr + "'Sun'";
+                            dayCount++;
+                        }
+                        if (document.getElementById("monday-box").checked) {
+                            if (dayCount > 0) {
+                                dayStr = dayStr + ", "
+                            }
+                            dayStr = dayStr + "'Mon'";
+                            dayCount++;
+                        }
+                        if (document.getElementById("tuesday-box").checked) {
+                            if (dayCount > 0) {
+                                dayStr = dayStr + ", "
+                            }
+                            dayStr = dayStr + "'Tue'";
+                            dayCount++;
+                        }
+                        if (document.getElementById("wednesday-box").checked) {
+                            if (dayCount > 0) {
+                                dayStr = dayStr + ", "
+                            }
+                            dayStr = dayStr + "'Wed'";
+                            dayCount++;
+                        }
+                        if (document.getElementById("thursday-box").checked) {
+                            if (dayCount > 0) {
+                                dayStr = dayStr + ", "
+                            }
+                            dayStr = dayStr + "'Thu'";
+                            dayCount++;
+                        }
+                        if (document.getElementById("friday-box").checked) {
+                            if (dayCount > 0) {
+                                dayStr = dayStr + ", "
+                            }
+                            dayStr = dayStr + "'Fri'";
+                            dayCount++;
+                        }
+                        if (document.getElementById("saturday-box").checked) {
+                            if (dayCount > 0) {
+                                dayStr = dayStr + ", "
+                            }
+                            dayStr = dayStr + "'Sat'";
+                            dayCount++;
+                        }
+                        dayStr = dayStr + ")";
+
+                        if (dayCount == 0) {
+                            dayStr = "";
+                        }
+
+                        return dayStr;
+                    }
+
+                    function getTimeStr(blank) {
+                        var timeStr = "";
+                        if (document.getElementById("upcoming-movies").checked) {
+                            var d = new Date();
+                            d.getDate();
+                            var ds = d.toISOString();
+                            //console.log(ds);
+                            var split = ds.split("Z")[0];
+
+                            if (blank == 0) {
+                                timeStr = "&";
+                            }
+                            else {
+                                timeStr = "?";
+                            }
+                            timeStr = timeStr + "$where=date>\'" + split + "\'";
+                        }
+                        return timeStr;
+                    }
+
+                    $("#movie-search").on("click", function (e) {
+                        clearMovies();
+                        var str = "";
+                        var blank = 1;
+                        var inputStr = $("#input-movie").val();
+                        if (inputStr.length > 0) {
+                            str = "?title=" + $("#input-movie").val();
+                            blank = 0;
+                        }
+                        var str = str + getDayStr(blank);
+                        if (str.length > 0) {
+                            blank = 0;
+                        }
+                        str = str + getTimeStr(blank);
+                        var numResults = 0;
+                        $.getJSON(endpoint + str, function (result) {
+                            $.each(result, function (i, v) {
+                                addMovie(v);
+                                numResults++;
+                            });
+                            $("#num-results-text").empty();
+                            $("#num-results-text").append(numResults + " result(s)");
+
+                            //Trying to switch to list-screen
+                            /*$(".content").hide();
+                            var target = $("#list-screen").attr("href");
+                            $(target).show();*/
+                        });
+                    });
+
+                    $("#park-search").on("click", function (e) {
+                        clearMovies();
+
+                        var str = "";
+                        var blank = 1;
+                        var inputStr = $("#input-park").val();
+                        if (inputStr.length > 0) {
+                            str = "?park=" + $("#input-park").val();
+                            blank = 0;
+                        }
+                        var str = str + getDayStr(blank);
+                        if (str.length > 0) {
+                            blank = 0;
+                        }
+                        str = str + getTimeStr(blank);
+
+                        var numResults = 0;
+                        $.getJSON(endpoint + str, function (result) {
+                            $.each(result, function (i, v) {
+                                addMovie(v);
+                                numResults++;
+                            });
+                            $("#num-results-text").empty();
+                            $("#num-results-text").append(numResults + " result(s)");
+                        });
+                    });
+
+
+                    // initializes all elements with the data-mdc-auto-init attribute
+                    window.mdc.autoInit();
+                    //alert("ready is done")
+                })
+            </script>
+            <script>
+                var map;
+                var service;
+                var infowindow;
+                var latitude;
+                var longitude;
+
+                function getLocation() {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        latitude = position.coords.latitude;
+                        longitude = position.coords.longitude;
+                        initMap(position.coords.latitude, position.coords.longitude);
+                        //getWeather(position.coords.latitude, position.coords.longitude);
+                    });
+                }
+
+                function initMap(latitude, longitude) {
+                    /*navigator.geolocation.getCurrentPosition(function(position) {
+                        latitude = position.coords.latitude;
+                        longitude = position.coords.longitude;
+                        //do_something(position.coords.latitude, position.coords.longitude);
+                    });*/
+
+                    var myLoc = new google.maps.LatLng(latitude, longitude);
+
+                    infowindow = new google.maps.InfoWindow();
+
+                    map = new google.maps.Map(
+                        document.getElementById('map'), { center: myLoc, zoom: 14 });
+
+                    var request = {
+                        location: myLoc,
+                        radius: '1000',
+                        //type: ['cafe']
+                        //keyword: ['coffee']
+                        query: 'coffee',
+                        //fields: ['name', 'geometry'],
+                    };
+
+                    service = new google.maps.places.PlacesService(map);
+                    service.textSearch(request, callback);
+
+                    service.findPlaceFromQuery(request, function (results, status) {
+                        if (status === google.maps.places.PlacesServiceStatus.OK) {
+                            for (var i = 0; i < results.length; i++) {
+                                createMarker(results[i]);
+                            }
+
+                            map.setCenter(results[0].geometry.location);
+                        }
+                    });
+                }
+
+                function callback(results, status) {
+                    if (status == google.maps.places.PlacesServiceStatus.OK) {
+                        for (var i = 0; i < results.length; i++) {
+                            var place = results[i];
+                            createMarker(results[i]);
+                        }
+                    }
+                }
+
+                function createMarker(place) {
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: place.geometry.location
+                    });
+
+                    google.maps.event.addListener(marker, 'click', function () {
+                        infowindow.setContent(place.name);
+                        infowindow.open(map, this);
+                    });
+                }
+
+                /*var map;
+                var markers = [];
+                function initMap() {
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: {lat: 41.881832, lng: -87.623177},
+                        zoom: 10
+                    });
+                } */
+            </script>
+
+            <script
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsHnLGvr0f3IYj5be9kxSPgruS0hb3qF8&libraries=places&callback=getLocation" async defer>
+            </script>
+
+
+            <script>
+                /*if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js')
+                .then(function(reg) {
+                    // registration worked
+                    //console.log('Registration succeeded. Scope is ' + reg.scope);
+                }).catch(function(error) {
+                    // registration failed
+                    //console.log('Registration failed with ' + error);
+                });
+                }*/
+            </script>
+
+</body>
 
 </html>
