@@ -268,20 +268,60 @@
                         var target = $(this).attr("href");
                         $(target).show();
                     });
+                    
+                    $(".read_article").on("click", function () {
+                        /*hideScreens();
+                        var target = $(this).attr("href");
+                        $(target).show();*/
+                        console.log("Button pushed");
+                    });
 
-                    function addTopArticle(v) {
-                        $("#top-news-list").append("<li class='list-group-item'><span>" + "<img src=" + v.thumbnail_standard + "> " + v.title + "<br><br>" + v.abstract + "<br>" + "<a href=" + v.url + ">Read Article</a>" + "</span></li>");
+                    function addTopArticle(v, photo) {
+                        //$("#top-news-list").append("<li class='list-group-item'><span>" + "<img src=" + v.thumbnail_standard + "> " + v.title + "<br><br>" + v.abstract + "<br>" + "<a href=" + v.url + ">Read Article</a>" + "</span></li>");
+                        $("#top-news-list").append("<div class='mdc-card demo-card'>" +
+                                                        "<div class='mdc-card__primary-action demo-card__primary-action' tabindex='0'>" + 
+                                                            "<div class='mdc-card__media mdc-card__media--16-9 demo-card__media' style='background-image: url(&quot;" + photo + "&quot;);'></div>" + 
+                                                            "<div class='demo-card__primary'>" + 
+                                                            "<h2 class='demo-card__title mdc-typography mdc-typography--headline6'>" + v.title + "</h2>" + 
+                                                            "<h3 class='demo-card__subtitle mdc-typography mdc-typography--subtitle2'>" + v.abstract + "</h3>" + 
+                                                            "</div>" + 
+                                                            "<div class='demo-card__secondary mdc-typography mdc-typography--body2'></div>" + 
+                                                        "</div>" + 
+                                                        "<div class='mdc-card__actions'>" + 
+                                                            "<div class='mdc-card__action-buttons'>" + 
+                                                            "<button class='mdc-button mdc-card__action mdc-card__action--button read_article'>  <span class='mdc-button__ripple'></span> Read Article</button>" + 
+                                                            "</div>" + 
+                                                        "</div>" + 
+                                                        "</div><br>");
                     }
 
 
                     $.getJSON(topNewsEndpoint, function (result) {
                         //console.log(result);
+                        var picUrl;
                         $.each(result, function (i, v) {
+                            console.log("i: " + i);
+                            //console.log("v: " + v);
                             if (i === "results") {
                                 $.each(v, function (ii, vv) {
-                                    //console.log("i: " + ii);
-                                    //console.log("v: " + vv);
-                                    addTopArticle(vv);
+                                    console.log("ii: " + ii);
+                                    //console.log("vv: " + vv);
+                                    $.each(vv, function (iii, vvv) {
+                                        console.log("iii: " + iii);
+                                        //console.log("vvv: " + vvv);
+                                        //console.log(vvv.multimedia[1].url)
+                                        if (iii === "multimedia") {
+                                            $.each(vvv, function (iiii, vvvv) {
+                                                //console.log("iiii: " + iiii);
+                                                if (iiii === 2) {
+                                                    console.log("iiii: "+iiii);
+                                                    console.log(vvvv.url);
+                                                    picUrl = vvvv.url;
+                                                }
+                                            });
+                                        }
+                                    });
+                                    addTopArticle(vv, picUrl);
                                 });
                             }
                         });
