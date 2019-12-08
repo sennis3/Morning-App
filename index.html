@@ -305,12 +305,11 @@
                     });
                     var cityName, desc, temp, highTemp, lowTemp, humidity;
                     $("#weather-icon").on("click", function (e) {
-                        
+                        $("#weather-list").empty();
                         console.log(latitude);
                         console.log(longitude);
                         var str = weatherEndpoint2 + latitude + "&lon=" + longitude + "&appid=b6907d289e10d714a6e88b30761fae22";
                         $.getJSON(str, function (result) {
-                            $("#weather-list").empty();
                             cityName = result.name;
                             $.each(result, function (i, v) {
                                 if (i === "weather"){
