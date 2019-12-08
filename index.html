@@ -21,6 +21,8 @@
       <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+      <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+
     <style>
         .content {
             display: none;
@@ -108,7 +110,7 @@
             document.getElementsByClassName("mdc-top-app-bar__navigation-icon")[0].addEventListener("click", function(){
               drawer.open = true;
             });
-          
+            
             
             // close drawer on selection
             let navs = document.getElementsByClassName("mdc-list-item");
@@ -233,7 +235,7 @@
     </div>
 
     <div class="content" id="search-history-screen">
-        search history screen
+        <h3 class="mdc-typography mdc-typography--headline5">Search History:</h3>
         <ul id="search-history-list" class="list-group"></ul>
     </div>
 
@@ -285,6 +287,22 @@
                     });
 
 
+                    //IndexedDB
+                    var db = new Dexie("appDB");
+      
+                    db.version(1).stores({
+                        searches: '++id',
+                        visits: '++id',
+                        settings: '++id'
+                    });
+
+                    //db.visits.add({"searches": new Date(), "type": "walk-in"})
+                    // db.visits.add({"dateTime": new Date("2019-11-24"), "type": "appt"})
+                    //db.settings.add({"darkMode": true})
+
+                    db.visits.each(function(i) {
+                        $("#search-history-list").append("<h3 class='mdc-typography--headline6'>" + i.searches + "<br></h3>");
+                    });
                     
                     
 
@@ -366,7 +384,12 @@
                                                         "</div>");
                     }
                     
-                    $("#news-search-button").on("click", function (e) {
+                    $("#news-search-button").on("click", function (e) { //TODO
+                        db.visits.add({"searches": $("#input-news-search").val()})
+                        $("#search-history-list").empty();
+                        db.visits.each(function(i) {
+                            $("#search-history-list").append("<h3 class='mdc-typography--headline6'>" + i.searches + "<br></h3>");
+                        });
                         $("#search-news-list").empty();
                         var api_key = "&api-key=qvuCmnn1xfLkesaokCLHKERhcJS5hfAa";
                         var endpt = searchNewsEndpoint + $("#input-news-search").val() + api_key;
