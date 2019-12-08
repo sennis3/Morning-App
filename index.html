@@ -203,12 +203,11 @@
     </div>
 
     <div class="content" id="top-news-screen">
-        This is the top news screen
         <ul id="top-news-list" class="list-group"></ul>
     </div>
 
     <div class="content" id="search-news-screen">
-        This is the search news screen<br>
+        <br>
         <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
             <input class="mdc-text-field__input" type="text" id="input-news-search">
             <label for="input-news-search" class="mdc-floating-label">Search for Articles</label>
@@ -221,7 +220,6 @@
     </div>
 
     <div class="content" id="weather-screen">
-        This is the weather screen
         <ul id="weather-list" class="list-group"></ul>
     </div>
 
@@ -277,8 +275,8 @@
                                                         "<div class='mdc-card__primary-action demo-card__primary-action' tabindex='0'>" + 
                                                             "<div class='mdc-card__media mdc-card__media--16-9 demo-card__media' style='background-image: url(&quot;" + photo + "&quot;);'></div>" + 
                                                             "<div class='demo-card__primary'>" + 
-                                                            "<h2 class='demo-card__title mdc-typography mdc-typography--headline6'>" + v.title + "</h2>" + 
-                                                            "<h3 class='demo-card__subtitle mdc-typography mdc-typography--subtitle2'>" + v.abstract + "</h3>" + 
+                                                            "<h2 class='demo-card__title mdc-typography mdc-typography--headline6'> " + v.title + "</h2>" + 
+                                                            "<h3 class='demo-card__subtitle mdc-typography mdc-typography--subtitle1'> " + v.abstract + "</h3>" + 
                                                             "</div>" + 
                                                             "<div class='demo-card__secondary mdc-typography mdc-typography--body2'></div>" + 
                                                         "</div>" + 
@@ -287,8 +285,7 @@
                                                             "<button class='mdc-button mdc-card__action mdc-card__action--button' onClick='location.href=&quot;" + v.url + "&quot'>  <span class='mdc-button__ripple'></span> Read Article</button>" + 
                                                             "</div>" + 
                                                         "</div>" + 
-                                                        "</div><br>");
-                        console.log(v.url);
+                                                        "</div>");
                     }
                     
 
@@ -332,7 +329,22 @@
                     });
 
                     function addSearchArticle(v) {
-                        $("#search-news-list").append("<li class='list-group-item'><span>" + v.headline.main + "<br><br>" + v.abstract + "<br><br>" + v.lead_paragraph + "<br>" + "<a href=" + v.web_url + ">Read Article</a>" + "</span></li>");
+                        //$("#search-news-list").append("<li class='list-group-item'><span>" + v.headline.main + "<br><br>" + v.abstract + "<br><br>" + v.lead_paragraph + "<br>" + "<a href=" + v.web_url + ">Read Article</a>" + "</span></li>");
+                        $("#search-news-list").append("<br><div class='mdc-card demo-card'>" +
+                                                        "<div class='mdc-card__primary-action demo-card__primary-action' tabindex='0'>" + 
+                                                            //"<div class='mdc-card__media mdc-card__media--16-9 demo-card__media' style='background-image: url(&quot;" + photo + "&quot;);'></div>" + 
+                                                            //"<div class='demo-card__primary'>" + 
+                                                            "<h2 class='demo-card__title mdc-typography mdc-typography--headline6'> " + v.headline.main + "</h2>" + 
+                                                            "<h3 class='demo-card__subtitle mdc-typography mdc-typography--subtitle1'> " + v.abstract + "</h3>" + 
+                                                            "</div>" + 
+                                                            "<div class='demo-card__secondary mdc-typography mdc-typography--body2'> " + v.lead_paragraph + "</div>" + 
+                                                        "</div>" + 
+                                                        "<div class='mdc-card__actions'>" + 
+                                                            "<div class='mdc-card__action-buttons'>" + 
+                                                            "<button class='mdc-button mdc-card__action mdc-card__action--button' onClick='location.href=&quot;" + v.web_url + "&quot'>  <span class='mdc-button__ripple'></span> Read Article</button>" + 
+                                                            "</div>" + 
+                                                        "</div>" + 
+                                                        "</div>");
                     }
                     
                     $("#news-search-button").on("click", function (e) {
