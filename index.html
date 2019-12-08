@@ -123,90 +123,6 @@
       
           </script>
 
-    <!-- navigation bar --
-    <nav class="navbar navbar-default navbar-expand-sm navbar-light bg-light">
-        <!--<nav class="navbar navbar-default"></nav>--
-        <a class="navbar-brand" href="#">Morning App</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            <i class=fas fa-bars></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#search-screen">Search<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#list-screen">List</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#map-screen">Nearby Coffee</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#top-news-screen">Top News</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#search-news-screen">Search News</a>
-                </li>
-                <li class="nav-item">
-                        <a class="nav-link" href="#weather-screen">Weather</a>
-                    </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#about-screen">About</a>
-                </li>
-            </ul>
-        </div>
-    </nav>-->
-
-    <!-- the content divs -->
-    <div class="content" id="search-screen">
-        <!-- notice the data-mdc-auto-init attribute;  this value is used by the autoinit script -->
-        <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-            <input class="mdc-text-field__input" type="text" id="input-movie">
-            <label for="input-movie" class="mdc-floating-label">Search By Movie</label>
-            <div class="mdc-line-ripple"></div>
-        </div>
-
-        <button class="mdc-button mdc-button--raised" id="movie-search">
-            Search
-        </button>
-        <br>
-
-        <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-            <input class="mdc-text-field__input" type="text" id="input-park">
-            <label for="input-park" class="mdc-floating-label">Search By Park</label>
-            <div class="mdc-line-ripple"></div>
-        </div>
-
-        <button class="mdc-button mdc-button--raised" id="park-search">
-            Search
-        </button>
-        <br>
-
-        <label><input type="checkbox" id="sunday-box" name="Sunday">Sunday</label>
-        <label><input type="checkbox" id="monday-box" name="Monday">Monday</label>
-        <label><input type="checkbox" id="tuesday-box" name="Tuesday">Tuesday</label>
-        <label><input type="checkbox" id="wednesday-box" name="Wednesday">Wednesday</label>
-        <label><input type="checkbox" id="thursday-box" name="Thursday">Thursday</label>
-        <label><input type="checkbox" id="friday-box" name="Friday">Friday</label>
-        <label><input type="checkbox" id="saturday-box" name="Saturday">Saturday</label>
-        <br>
-
-        <label><input type="checkbox" id="upcoming-movies" name="upcoming-movies" checked> Upcoming Movies</label>
-        <br><br>Leave fields blank for all results<br>
-
-        <br><br>Initiate news articles<br>
-        <button class="mdc-button mdc-button--raised" id="park-search">
-            Search
-        </button>
-
-    </div>
-    <div class="content" id="list-screen">
-        <div id="num-results-text"></div><br>
-        <ul id="movie-list" class="list-group"></ul>
-    </div>
-
     <div class="content" id="map-screen">
         <h3 class="mdc-typography mdc-typography--headline5">Coffee Near You</h3>
         <div id="map"></div>
@@ -256,7 +172,7 @@
                 var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
                 var topNewsEndpoint = "https://api.nytimes.com/svc/news/v3/content/all/all.json?api-key=qvuCmnn1xfLkesaokCLHKERhcJS5hfAa";
                 var searchNewsEndpoint = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=";
-                var weatherEndpoint = "https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&latitude=42.2289408&longitude=-87.98208000000001&oneobservation=true&app_id=o2ov6ufw0JJwr1QfqfMz&app_code=IhLTcO18SpfN_CGnU9xeYw?jsoncallback=?";
+                //var weatherEndpoint = "https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&latitude=42.2289408&longitude=-87.98208000000001&oneobservation=true&app_id=o2ov6ufw0JJwr1QfqfMz&app_code=IhLTcO18SpfN_CGnU9xeYw?jsoncallback=?";
                 var weatherEndpoint2 = "https://openweathermap.org/data/2.5/weather?lat=";
                 
                 // wait til the document is ready
@@ -296,11 +212,7 @@
                         settings: '++id'
                     });
 
-                    //db.visits.add({"searches": new Date(), "type": "walk-in"})
-                    // db.visits.add({"dateTime": new Date("2019-11-24"), "type": "appt"})
-                    //db.settings.add({"darkMode": true})
-
-                    db.visits.each(function(i) {
+                    db.searches.each(function(i) {
                         $("#search-history-list").append("<h3 class='mdc-typography--headline6'>" + i.searches + "<br></h3>");
                     });
                     
@@ -326,34 +238,18 @@
                     }
                     
 
-                    /*$(".mdc-card__action--button").on("click", function () {
-                        /*hideScreens();
-                        var target = $(this).attr("href");
-                        $(target).show();
-                        console.log("Button pushed");
-                    });*/
+                    
 
 
                     $.getJSON(topNewsEndpoint, function (result) {
-                        //console.log(result);
                         var picUrl;
                         $.each(result, function (i, v) {
-                            //console.log("i: " + i);
-                            //console.log("v: " + v);
                             if (i === "results") {
                                 $.each(v, function (ii, vv) {
-                                    //console.log("ii: " + ii);
-                                    //console.log("vv: " + vv);
                                     $.each(vv, function (iii, vvv) {
-                                        //console.log("iii: " + iii);
-                                        //console.log("vvv: " + vvv);
-                                        //console.log(vvv.multimedia[1].url)
                                         if (iii === "multimedia") {
                                             $.each(vvv, function (iiii, vvvv) {
-                                                //console.log("iiii: " + iiii);
                                                 if (iiii === 2) {
-                                                    //console.log("iiii: "+iiii);
-                                                    //console.log(vvvv.url);
                                                     picUrl = vvvv.url;
                                                 }
                                             });
@@ -384,33 +280,24 @@
                                                         "</div>");
                     }
                     
-                    $("#news-search-button").on("click", function (e) { //TODO
-                        db.visits.add({"searches": $("#input-news-search").val()})
+                    $("#news-search-button").on("click", function (e) { 
+                        db.searches.add({"searches": $("#input-news-search").val()})
                         $("#search-history-list").empty();
-                        db.visits.each(function(i) {
+                        db.searches.each(function(i) {
                             $("#search-history-list").append("<h3 class='mdc-typography--headline6'>" + i.searches + "<br></h3>");
                         });
                         $("#search-news-list").empty();
                         var api_key = "&api-key=qvuCmnn1xfLkesaokCLHKERhcJS5hfAa";
                         var endpt = searchNewsEndpoint + $("#input-news-search").val() + api_key;
                         $.getJSON(endpt, function (result) {
-                            console.log(result);
                             $.each(result, function (i, v) {
                                 if (i === "response") {
-                                    //console.log(v);
                                     $.each(v, function (ii, vv) {
                                         if (ii === "docs"){
-                                        // console.log("true");
-                                            //console.log(vv);
                                             $.each(vv, function (iii, vvv) {
-                                                console.log(vvv.multimedia);
-                                                //console.log(vvv.headline.main);
                                                 addSearchArticle(vvv);
                                             });
                                         }
-                                        //console.log("i: " + ii);
-                                        //console.log("v: " + vv);
-                                        
                                     });
                                 }
                             });
@@ -430,7 +317,6 @@
                                         desc = vv. description;
                                     });
                                 }
-                                console.log(name);
                                 if (i === "main"){
                                     temp = v.temp * 9/5 + 32;
                                     highTemp = v.temp_max * 9/5 + 32;
@@ -455,190 +341,10 @@
                                                             "</div>");
                                 }
                             });
-                            console.log(desc + " " + temp + " " + highTemp + " " + lowTemp + " " + humidity);
 
                         });
                     });
-                    /*function getWeather(latitude, longitude) {
-                        console.log("geting weather");
-                        $.getJSON(weatherEndpoint, function (result) {
-                            console.log(result);
-                        });
-                    }*/
-
-
-                    function clearMovies() {
-                        $("#movie-list").empty();
-                        /*var numMarkers = markers.length;
-                        for (var i = 0; i < numMarkers; i++) {
-                            markers[i].setMap(null);
-                        }*/
-                    }
-
-                    function addMovie(v) {
-                        $("#movie-list").append("<li class='list-group-item'><span>" + v.title + "<br>" + v.park + "<br>" + v.rating + "<br>" + v.day + "<br>" + v.date + "<br>CC: " + v.cc + "</span></li>");
-                        /*if (v.hasOwnProperty('location')) {
-                            var infowindow = new google.maps.InfoWindow({
-                                content: v.title + "<br>" + v.park + "<br>" + v.rating + "<br>" + v.day + "<br>" + v.date + "<br>CC: " + v.cc
-                            })
-
-                            var marker = new google.maps.Marker({
-                                position: { lat: parseFloat(v.location.latitude), lng: parseFloat(v.location.longitude) },
-                                map: map,
-                                title: v.park
-                            });
-
-                            marker.addListener('click', function () {
-                                infowindow.open(map, marker);
-                            });
-                            markers.push(marker);
-                        }*/
-                    }
-
-                    function getDayStr(blankTitle) {
-                        var dayStr = "";
-                        if (blankTitle == 0) {
-                            dayStr = "&";
-                        }
-                        else {
-                            dayStr = "?";
-                        }
-                        var dayStr = dayStr + "$where=day in("
-                        var dayCount = 0;
-                        if (document.getElementById("sunday-box").checked) {
-                            if (dayCount > 0) {
-                                dayStr = dayStr + ", "
-                            }
-                            dayStr = dayStr + "'Sun'";
-                            dayCount++;
-                        }
-                        if (document.getElementById("monday-box").checked) {
-                            if (dayCount > 0) {
-                                dayStr = dayStr + ", "
-                            }
-                            dayStr = dayStr + "'Mon'";
-                            dayCount++;
-                        }
-                        if (document.getElementById("tuesday-box").checked) {
-                            if (dayCount > 0) {
-                                dayStr = dayStr + ", "
-                            }
-                            dayStr = dayStr + "'Tue'";
-                            dayCount++;
-                        }
-                        if (document.getElementById("wednesday-box").checked) {
-                            if (dayCount > 0) {
-                                dayStr = dayStr + ", "
-                            }
-                            dayStr = dayStr + "'Wed'";
-                            dayCount++;
-                        }
-                        if (document.getElementById("thursday-box").checked) {
-                            if (dayCount > 0) {
-                                dayStr = dayStr + ", "
-                            }
-                            dayStr = dayStr + "'Thu'";
-                            dayCount++;
-                        }
-                        if (document.getElementById("friday-box").checked) {
-                            if (dayCount > 0) {
-                                dayStr = dayStr + ", "
-                            }
-                            dayStr = dayStr + "'Fri'";
-                            dayCount++;
-                        }
-                        if (document.getElementById("saturday-box").checked) {
-                            if (dayCount > 0) {
-                                dayStr = dayStr + ", "
-                            }
-                            dayStr = dayStr + "'Sat'";
-                            dayCount++;
-                        }
-                        dayStr = dayStr + ")";
-
-                        if (dayCount == 0) {
-                            dayStr = "";
-                        }
-
-                        return dayStr;
-                    }
-
-                    function getTimeStr(blank) {
-                        var timeStr = "";
-                        if (document.getElementById("upcoming-movies").checked) {
-                            var d = new Date();
-                            d.getDate();
-                            var ds = d.toISOString();
-                            //console.log(ds);
-                            var split = ds.split("Z")[0];
-
-                            if (blank == 0) {
-                                timeStr = "&";
-                            }
-                            else {
-                                timeStr = "?";
-                            }
-                            timeStr = timeStr + "$where=date>\'" + split + "\'";
-                        }
-                        return timeStr;
-                    }
-
-                    $("#movie-search").on("click", function (e) {
-                        clearMovies();
-                        var str = "";
-                        var blank = 1;
-                        var inputStr = $("#input-movie").val();
-                        if (inputStr.length > 0) {
-                            str = "?title=" + $("#input-movie").val();
-                            blank = 0;
-                        }
-                        var str = str + getDayStr(blank);
-                        if (str.length > 0) {
-                            blank = 0;
-                        }
-                        str = str + getTimeStr(blank);
-                        var numResults = 0;
-                        $.getJSON(endpoint + str, function (result) {
-                            $.each(result, function (i, v) {
-                                addMovie(v);
-                                numResults++;
-                            });
-                            $("#num-results-text").empty();
-                            $("#num-results-text").append(numResults + " result(s)");
-
-                            //Trying to switch to list-screen
-                            /*$(".content").hide();
-                            var target = $("#list-screen").attr("href");
-                            $(target).show();*/
-                        });
-                    });
-
-                    $("#park-search").on("click", function (e) {
-                        clearMovies();
-
-                        var str = "";
-                        var blank = 1;
-                        var inputStr = $("#input-park").val();
-                        if (inputStr.length > 0) {
-                            str = "?park=" + $("#input-park").val();
-                            blank = 0;
-                        }
-                        var str = str + getDayStr(blank);
-                        if (str.length > 0) {
-                            blank = 0;
-                        }
-                        str = str + getTimeStr(blank);
-
-                        var numResults = 0;
-                        $.getJSON(endpoint + str, function (result) {
-                            $.each(result, function (i, v) {
-                                addMovie(v);
-                                numResults++;
-                            });
-                            $("#num-results-text").empty();
-                            $("#num-results-text").append(numResults + " result(s)");
-                        });
-                    });
+                    
 
 
                     // initializes all elements with the data-mdc-auto-init attribute
@@ -670,12 +376,7 @@
                 }
 
                 function initMap(latitude, longitude) {
-                    /*navigator.geolocation.getCurrentPosition(function(position) {
-                        latitude = position.coords.latitude;
-                        longitude = position.coords.longitude;
-                        //do_something(position.coords.latitude, position.coords.longitude);
-                    });*/
-
+                    
                     var myLoc = new google.maps.LatLng(latitude, longitude);
 
                     infowindow = new google.maps.InfoWindow();
@@ -727,14 +428,7 @@
                     });
                 }
 
-                /*var map;
-                var markers = [];
-                function initMap() {
-                    map = new google.maps.Map(document.getElementById('map'), {
-                        center: {lat: 41.881832, lng: -87.623177},
-                        zoom: 10
-                    });
-                } */
+                
             </script>
 
             <script
@@ -743,16 +437,16 @@
 
 
             <script>
-                /*if ('serviceWorker' in navigator) {
+                if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('./sw.js')
                 .then(function(reg) {
                     // registration worked
-                    //console.log('Registration succeeded. Scope is ' + reg.scope);
+                    console.log('Registration succeeded. Scope is ' + reg.scope);
                 }).catch(function(error) {
                     // registration failed
-                    //console.log('Registration failed with ' + error);
+                    console.log('Registration failed with ' + error);
                 });
-                }*/
+                }
             </script>
 
 </body>
