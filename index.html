@@ -85,7 +85,7 @@
           <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
             <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Top News" href="#top-news-screen">News</button>
             <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search News" href="#search-news-screen">search</button>
-            <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Weather" href="#weather-screen">wb_sunny</button>
+            <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Weather" id="weather-icon" href="#weather-screen">wb_sunny</button>
             <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Nearby Cofee" href="#map-screen">free_breakfast</button>
           </section>
         </div>
@@ -239,7 +239,7 @@
                 var topNewsEndpoint = "https://api.nytimes.com/svc/news/v3/content/all/all.json?api-key=qvuCmnn1xfLkesaokCLHKERhcJS5hfAa";
                 var searchNewsEndpoint = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=";
                 var weatherEndpoint = "https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&latitude=42.2289408&longitude=-87.98208000000001&oneobservation=true&app_id=o2ov6ufw0JJwr1QfqfMz&app_code=IhLTcO18SpfN_CGnU9xeYw?jsoncallback=?";
-                var weatherEndpoint2 = "https://openweathermap.org/data/2.5/weather?lat=41.8781&lon=-87.6298&appid=b6907d289e10d714a6e88b30761fae22";
+                var weatherEndpoint2 = "https://openweathermap.org/data/2.5/weather?lat=";
                 
                 // wait til the document is ready
                 $(document).ready(function () {
@@ -267,6 +267,8 @@
                         var target = $(this).attr("href");
                         $(target).show();
                     });
+
+
                     
                     
 
@@ -375,41 +377,47 @@
                             });
                         });
                     });
+                    $("#weather-icon").on("click", function (e) {
+                        $("#weather-list").empty();
+                        console.log(latitude);
+                        console.log(longitude);
+                        var str = weatherEndpoint2 + latitude + "&lon=" + longitude + "&appid=b6907d289e10d714a6e88b30761fae22";
+                        $.getJSON(str, function (result) {
+                            var cityName, desc, temp, highTemp, lowTemp, humidity;
+                            cityName = result.name;
+                            $.each(result, function (i, v) {
+                                if (i === "weather"){
+                                    $.each(v, function (ii, vv) {
+                                        desc = vv. description;
+                                    });
+                                }
+                                console.log(name);
+                                if (i === "main"){
+                                    temp = v.temp * 9/5 + 32;
+                                    highTemp = v.temp_max * 9/5 + 32;
+                                    lowTemp = v.temp_min * 9/5 + 32;
+                                    humidity = v.humidity;
+                                    //$("#weather-list").append("<li class='list-group-item'><span>" + desc + "<br>Current Temperature: " + temp + "°F<br>Today's High: " + highTemp + "°F<br>Today's Low: " + lowTemp + "°F<br>Humidity: " + humidity + "%" + "</span></li>");
+                                    $("#weather-list").append("<br><div class='mdc-card demo-card'>" +
+                                                            "<div class='mdc-card__primary-action demo-card__primary-action' tabindex='0'>" + 
+                                                                //"<div class='mdc-card__media mdc-card__media--16-9 demo-card__media' style='background-image: url(&quot;" + photo + "&quot;);'></div>" + 
+                                                                //"<div class='demo-card__primary'>" + 
+                                                                "<br><h2 class='demo-card__title mdc-typography mdc-typography--headline5'>" + cityName + "'s Weather</h2>" + 
+                                                                "<br><h3 class='demo-card__subtitle mdc-typography mdc-typography--headline3'>" + temp + "°F</h3>" + 
+                                                                "</div>" + 
+                                                                "<br><div class='demo-card__secondary mdc-typography mdc-typography--headline6'> High: " + highTemp + "°F<br> Low: " + lowTemp + "°F<br><br> Humidity: " + humidity + "%</div>" + 
+                                                            "</div>" + 
+                                                            /*"<div class='mdc-card__actions'>" + 
+                                                                "<div class='mdc-card__action-buttons'>" + 
+                                                                "<button class='mdc-button mdc-card__action mdc-card__action--button' onClick='location.href=&quot;" + v.web_url + "&quot'>  <span class='mdc-button__ripple'></span> Read Article</button>" + 
+                                                                "</div>" + 
+                                                            "</div>" +*/ 
+                                                            "</div>");
+                                }
+                            });
+                            console.log(desc + " " + temp + " " + highTemp + " " + lowTemp + " " + humidity);
 
-                    $.getJSON(weatherEndpoint2, function (result) {
-                        var desc, temp, highTemp, lowTemp, humidity;
-                        console.log(result);
-                        $.each(result, function (i, v) {
-                            if (i === "weather"){
-                                $.each(v, function (ii, vv) {
-                                    desc = vv. description;
-                                });
-                            }
-                            if (i === "main"){
-                                temp = v.temp * 9/5 + 32;
-                                highTemp = v.temp_max * 9/5 + 32;
-                                lowTemp = v.temp_min * 9/5 + 32;
-                                humidity = v.humidity;
-                                //$("#weather-list").append("<li class='list-group-item'><span>" + desc + "<br>Current Temperature: " + temp + "°F<br>Today's High: " + highTemp + "°F<br>Today's Low: " + lowTemp + "°F<br>Humidity: " + humidity + "%" + "</span></li>");
-                                $("#weather-list").append("<br><div class='mdc-card demo-card'>" +
-                                                        "<div class='mdc-card__primary-action demo-card__primary-action' tabindex='0'>" + 
-                                                            //"<div class='mdc-card__media mdc-card__media--16-9 demo-card__media' style='background-image: url(&quot;" + photo + "&quot;);'></div>" + 
-                                                            //"<div class='demo-card__primary'>" + 
-                                                            "<br><h2 class='demo-card__title mdc-typography mdc-typography--headline5'>Chicago's Weather</h2>" + 
-                                                            "<br><h3 class='demo-card__subtitle mdc-typography mdc-typography--headline3'>" + temp + "°F</h3>" + 
-                                                            "</div>" + 
-                                                            "<br><div class='demo-card__secondary mdc-typography mdc-typography--headline6'> High: " + highTemp + "°F<br> Low: " + lowTemp + "°F<br><br> Humidity: " + humidity + "%</div>" + 
-                                                        "</div>" + 
-                                                        /*"<div class='mdc-card__actions'>" + 
-                                                            "<div class='mdc-card__action-buttons'>" + 
-                                                            "<button class='mdc-button mdc-card__action mdc-card__action--button' onClick='location.href=&quot;" + v.web_url + "&quot'>  <span class='mdc-button__ripple'></span> Read Article</button>" + 
-                                                            "</div>" + 
-                                                        "</div>" +*/ 
-                                                        "</div>");
-                            }
                         });
-                        console.log(desc + " " + temp + " " + highTemp + " " + lowTemp + " " + humidity);
-
                     });
                     /*function getWeather(latitude, longitude) {
                         console.log("geting weather");
@@ -604,6 +612,13 @@
                 var infowindow;
                 var latitude;
                 var longitude;
+
+                navigator.geolocation.getCurrentPosition(function(position) {
+                        latitude = position.coords.latitude;
+                        longitude = position.coords.longitude;
+                        initMap(position.coords.latitude, position.coords.longitude);
+                        //getWeather(position.coords.latitude, position.coords.longitude);
+                    });
 
                 function getLocation() {
                     navigator.geolocation.getCurrentPosition(function(position) {
