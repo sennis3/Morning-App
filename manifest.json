@@ -1,10 +1,10 @@
 {
-    "name": "Chicago Event Search",
-    "short_name": "EvntSrch",
+    "name": "Morning App",
+    "short_name": "MornApp",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "blue",
-    "description": "An app to search events in Chicago",
+    "description": "An app to help start your day",
     "icons": [{
         "src": "./icon.png",
         "sizes": "192x192",
