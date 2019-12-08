@@ -269,12 +269,7 @@
                         $(target).show();
                     });
                     
-                    $(".read_article").on("click", function () {
-                        /*hideScreens();
-                        var target = $(this).attr("href");
-                        $(target).show();*/
-                        console.log("Button pushed");
-                    });
+                    
 
                     function addTopArticle(v, photo) {
                         //$("#top-news-list").append("<li class='list-group-item'><span>" + "<img src=" + v.thumbnail_standard + "> " + v.title + "<br><br>" + v.abstract + "<br>" + "<a href=" + v.url + ">Read Article</a>" + "</span></li>");
@@ -289,33 +284,42 @@
                                                         "</div>" + 
                                                         "<div class='mdc-card__actions'>" + 
                                                             "<div class='mdc-card__action-buttons'>" + 
-                                                            "<button class='mdc-button mdc-card__action mdc-card__action--button read_article'>  <span class='mdc-button__ripple'></span> Read Article</button>" + 
+                                                            "<button class='mdc-button mdc-card__action mdc-card__action--button' onClick='location.href=&quot;" + v.url + "&quot'>  <span class='mdc-button__ripple'></span> Read Article</button>" + 
                                                             "</div>" + 
                                                         "</div>" + 
                                                         "</div><br>");
+                        console.log(v.url);
                     }
+                    
+
+                    /*$(".mdc-card__action--button").on("click", function () {
+                        /*hideScreens();
+                        var target = $(this).attr("href");
+                        $(target).show();
+                        console.log("Button pushed");
+                    });*/
 
 
                     $.getJSON(topNewsEndpoint, function (result) {
                         //console.log(result);
                         var picUrl;
                         $.each(result, function (i, v) {
-                            console.log("i: " + i);
+                            //console.log("i: " + i);
                             //console.log("v: " + v);
                             if (i === "results") {
                                 $.each(v, function (ii, vv) {
-                                    console.log("ii: " + ii);
+                                    //console.log("ii: " + ii);
                                     //console.log("vv: " + vv);
                                     $.each(vv, function (iii, vvv) {
-                                        console.log("iii: " + iii);
+                                        //console.log("iii: " + iii);
                                         //console.log("vvv: " + vvv);
                                         //console.log(vvv.multimedia[1].url)
                                         if (iii === "multimedia") {
                                             $.each(vvv, function (iiii, vvvv) {
                                                 //console.log("iiii: " + iiii);
                                                 if (iiii === 2) {
-                                                    console.log("iiii: "+iiii);
-                                                    console.log(vvvv.url);
+                                                    //console.log("iiii: "+iiii);
+                                                    //console.log(vvvv.url);
                                                     picUrl = vvvv.url;
                                                 }
                                             });
