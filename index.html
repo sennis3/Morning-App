@@ -334,10 +334,10 @@
                                                         "<div class='mdc-card__primary-action demo-card__primary-action' tabindex='0'>" + 
                                                             //"<div class='mdc-card__media mdc-card__media--16-9 demo-card__media' style='background-image: url(&quot;" + photo + "&quot;);'></div>" + 
                                                             //"<div class='demo-card__primary'>" + 
-                                                            "<h2 class='demo-card__title mdc-typography mdc-typography--headline6'> " + v.headline.main + "</h2>" + 
-                                                            "<h3 class='demo-card__subtitle mdc-typography mdc-typography--subtitle1'> " + v.abstract + "</h3>" + 
+                                                            "<h2 class='demo-card__title mdc-typography mdc-typography--headline4'> " + v.headline.main + "</h2>" + 
+                                                            "<h3 class='demo-card__subtitle mdc-typography mdc-typography--headline6'> " + v.abstract + "</h3>" + 
                                                             "</div>" + 
-                                                            "<div class='demo-card__secondary mdc-typography mdc-typography--body2'> " + v.lead_paragraph + "</div>" + 
+                                                            "<div class='demo-card__secondary mdc-typography mdc-typography--body1'> " + v.lead_paragraph + "</div>" + 
                                                         "</div>" + 
                                                         "<div class='mdc-card__actions'>" + 
                                                             "<div class='mdc-card__action-buttons'>" + 
@@ -389,7 +389,22 @@
                                 highTemp = v.temp_max * 9/5 + 32;
                                 lowTemp = v.temp_min * 9/5 + 32;
                                 humidity = v.humidity;
-                                $("#weather-list").append("<li class='list-group-item'><span>" + desc + "<br>Current Temperature: " + temp + "°F<br>Today's High: " + highTemp + "°F<br>Today's Low: " + lowTemp + "°F<br>Humidity: " + humidity + "%" + "</span></li>");
+                                //$("#weather-list").append("<li class='list-group-item'><span>" + desc + "<br>Current Temperature: " + temp + "°F<br>Today's High: " + highTemp + "°F<br>Today's Low: " + lowTemp + "°F<br>Humidity: " + humidity + "%" + "</span></li>");
+                                $("#weatherlist").append("<br><div class='mdc-card demo-card'>" +
+                                                        "<div class='mdc-card__primary-action demo-card__primary-action' tabindex='0'>" + 
+                                                            //"<div class='mdc-card__media mdc-card__media--16-9 demo-card__media' style='background-image: url(&quot;" + photo + "&quot;);'></div>" + 
+                                                            //"<div class='demo-card__primary'>" + 
+                                                            "<h2 class='demo-card__title mdc-typography mdc-typography--headline6'> " + v.headline.main + "</h2>" + 
+                                                            "<h3 class='demo-card__subtitle mdc-typography mdc-typography--subtitle1'> " + v.abstract + "</h3>" + 
+                                                            "</div>" + 
+                                                            "<div class='demo-card__secondary mdc-typography mdc-typography--body2'> " + v.lead_paragraph + "</div>" + 
+                                                        "</div>" + 
+                                                        "<div class='mdc-card__actions'>" + 
+                                                            "<div class='mdc-card__action-buttons'>" + 
+                                                            "<button class='mdc-button mdc-card__action mdc-card__action--button' onClick='location.href=&quot;" + v.web_url + "&quot'>  <span class='mdc-button__ripple'></span> Read Article</button>" + 
+                                                            "</div>" + 
+                                                        "</div>" + 
+                                                        "</div>");
                             }
                         });
                         console.log(desc + " " + temp + " " + highTemp + " " + lowTemp + " " + humidity);
