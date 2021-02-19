@@ -307,11 +307,73 @@
                         $("#weather-list").empty();
                         console.log(latitude);
                         console.log(longitude);
-                        var str = weatherEndpoint2 + latitude + "&lon=" + longitude + "&appid=7b905295fbcfd364a18838be3910b2a7"; //b6907d289e10d714a6e88b30761fae22";
+
+                        var newWeatherEndpoint = "https://api.weatherapi.com/v1/forecast.json?key=feaf743401ce48f8bac91402211802&q=" + latitude + "," + longitude;
+                        $.getJSON(newWeatherEndpoint, function (result) {
+                            //console.log(result);
+                            var cityName, regionName, desc, temp, highTemp, lowTemp, humidity;
+                            $.each(result, function (i, v) {
+                                console.log(i);
+                                console.log(v);
+                                if (i === "location"){
+                                    cityName = v.name;
+                                    regionName = v.region
+
+                                    //console.log(cityName);
+                                    //console.log(regionName);
+                                }
+                                if (i === "current"){
+                                    //console.log(v.condition.text);
+                                    desc = v.condition.text;
+                                    temp = v.temp_f;
+                                    humidity = v.humidity;
+
+                                    console.log("Desc: " + desc);
+                                    console.log("Temp: " + temp);
+                                    console.log("Humidity: " + humidity);
+                                }
+
+                                if (i === "forecast"){
+                                    console.log("HighTemp: " + v.forecastday[0].day.maxtemp_f);
+                                    console.log("LowTemp: " + v.forecastday[0].day.mintemp_f);
+
+                                    highTemp = v.forecastday[0].day.maxtemp_f;
+                                    lowTemp = v.forecastday[0].day.mintemp_f;
+                                    /*$.each(v, function (ii, vv) {
+                                        console.log(v.)
+                                    });*/
+                                }
+                            });
+
+                            $("#weather-list").append("<div class='mdc-card demo-card'>" +
+                                                            "<div class='mdc-card__primary-action demo-card__primary-action' tabindex='0'>" + 
+                                                                //"<div class='mdc-card__media mdc-card__media--16-9 demo-card__media' style='background-image: url(&quot;" + photo + "&quot;);'></div>" + 
+                                                                //"<div class='demo-card__primary'>" + 
+                                                                "<br><h2 class='demo-card__title mdc-typography mdc-typography--headline5'><center>" + cityName + ", " + regionName + "</center></h2>" + 
+                                                                "<br><h3 class='demo-card__subtitle mdc-typography mdc-typography--headline4'><center>" + desc + "<br></center></h3>" + 
+                                                                "<br><h3 class='demo-card__subtitle mdc-typography mdc-typography--headline3'><center>" + temp + "°F</center></h3>" + 
+                                                                "</div>" + 
+                                                                "<br><div class='demo-card__secondary mdc-typography mdc-typography--headline6'><center> High: " + highTemp + "°F<br> Low: " + lowTemp + "°F<br><br> Humidity: " + humidity + "%</center></div>" + 
+                                                            "<br></div>" + 
+                                                            /*"<div class='mdc-card__actions'>" + 
+                                                                "<div class='mdc-card__action-buttons'>" + 
+                                                                "<button class='mdc-button mdc-card__action mdc-card__action--button' onClick='location.href=&quot;" + v.web_url + "&quot'>  <span class='mdc-button__ripple'></span> Read Article</button>" + 
+                                                                "</div>" + 
+                                                            "</div>" +*/ 
+                                                            "</div>");
+                        });
+
+                        
+
+                                                            
+
+                        /*
+                        var str = weatherEndpoint2 + latitude + "&lon=" + longitude + "&appid=3e73c3cad5c6f14cbad12da1ff9856a1"; //b6907d289e10d714a6e88b30761fae22";
                         $.getJSON(str, function (result) {
                             var cityName, desc, temp, highTemp, lowTemp, humidity;
                             cityName = result.name;
                             $.each(result, function (i, v) {
+                                console.log(v);
                                 if (i === "weather"){
                                     $.each(v, function (ii, vv) {
                                         desc = vv. description;
@@ -337,12 +399,13 @@
                                                                 "<div class='mdc-card__action-buttons'>" + 
                                                                 "<button class='mdc-button mdc-card__action mdc-card__action--button' onClick='location.href=&quot;" + v.web_url + "&quot'>  <span class='mdc-button__ripple'></span> Read Article</button>" + 
                                                                 "</div>" + 
-                                                            "</div>" +*/ 
+                                                            "</div>" +*\/ 
                                                             "</div>");
                                 }
                             });
 
                         });
+                        */
                     });
                     
 
